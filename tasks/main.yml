@@ -15,22 +15,21 @@
 - include: git_install.yml
   when: shinken_install == 'git'
 
-- name: Ensure 'shinken' user can start services
-  file:
-    path: /var/run/shinken/
-    state: directory
-    owner: shinken
-    recurse: yes
-
 - name: Enable and start Shinken services
-#  sudo: yes
   service:
     name: shinken
     enabled: yes
     state: started
 
 - name: Initialize Shinken command-line
-  command: shinken --init
+  command: /usr/bin/shinken --init
+  args:
+    creates: /root/.shinken.ini
+
+- name: Check installed Shinken packages
+  command: /usr/bin/shinken inventory
+  register: shinken_inventory
+  changed_when: False
 
 - include: webui.yml
   when: shinken_webui

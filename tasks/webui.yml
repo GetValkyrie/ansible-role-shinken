@@ -1,10 +1,11 @@
 ---
 
-- name: Install Shinken WebUI
-  command: shinken install webui
-
-- name: Install Shinken auth module
-  command: shinken install auth-cfg-password
+- name: Install Shinken WebUI and auth modules.
+  command: "/usr/bin/shinken install {{ item }}"
+  when: "'{{ item }}' not in shinken_inventory.stdout_lines"
+  with_items:
+    - webui
+    - auth-cfg-password
 
 - name: Deploy webui configuration
   template:
