@@ -10,3 +10,11 @@
   pip:
     name: shinken
 
+- name: Fix 'wall' page
+  # https://github.com/shinken-monitoring/mod-webui/issues/102#issuecomment-77958430
+  lineinfile:
+    state: present
+    dest: /var/lib/shinken/modules/webui/plugins/wall/wall.py
+    regexp: from helper import hst_srv_sort
+    line: from shinken.misc.sorter import hst_srv_sort
+  notify: restart shinken
