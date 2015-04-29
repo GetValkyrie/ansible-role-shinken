@@ -9,6 +9,13 @@
   user:
     name: shinken
 
+- name: Ensure setuid on monitoring plugins
+  file:
+    state: directory
+    path: /usr/lib/nagios/plugins
+    mode: u+s
+    recurse: yes
+
 - include: pip_install.yml
   when: shinken_install == 'pip'
 

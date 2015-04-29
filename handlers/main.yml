@@ -3,3 +3,7 @@
   service:
     name: shinken
     state: restarted
+- name: reload shinken
+  service:
+    name: shinken
+    state: reloaded
