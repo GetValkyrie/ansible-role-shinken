@@ -6,9 +6,13 @@
   with_items:
     - webui
     - auth-cfg-password
+    - sqlitedb
 
-- name: Deploy webui configuration
+- name: Deploy webui and sqlite configuration
   template:
-    dest: /etc/shinken/modules/webui.cfg
-    src: ../templates/webui.cfg.j2
+    dest: "/etc/shinken/modules/{{ item }}.cfg"
+    src: "../templates/{{ item }}.cfg.j2"
   notify: restart shinken
+  with_items:
+    - webui
+    - sqlitedb
