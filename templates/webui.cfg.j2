@@ -1,0 +1,16 @@
+define module {
+  module_name     webui
+  module_type     webui
+  host            0.0.0.0
+  port            7767
+  auth_secret     CHANGE_ME
+  allow_html_output   1
+  max_output_length   1024
+  manage_acl          1
+  play_sound          0
+  login_text          Welcome on Shinken WebUI
+  modules             auth-cfg-password
+  #http_backend        auto
+  #remote_user_enable      1
+  #remote_user_variable
+}

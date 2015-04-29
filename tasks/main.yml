@@ -1,0 +1,42 @@
+---
+
+- name: Install Shinken dependencies
+  apt:
+    name: "{{ item }}"
+  with_items: shinken_packages
+
+- name: Add 'shinken' user
+  user:
+    name: shinken
+
+- include: pip_install.yml
+  when: shinken_install == 'pip'
+
+- include: git_install.yml
+  when: shinken_install == 'git'
+
+- name: Ensure 'shinken' user can start services
+  file:
+    path: /var/run/shinken/
+    state: directory
+    owner: shinken
+    recurse: yes
+
+- name: Enable and start Shinken services
+#  sudo: yes
+  service:
+    name: shinken
+    enabled: yes
+    state: started
+
+- name: Initialize Shinken command-line
+  command: shinken --init
+
+- include: webui.yml
+  when: shinken_webui
+
+- name: Deploy Broker configuration
+  template:
+    dest: /etc/shinken/brokers/broker-master.cfg
+    src: ../templates/broker-master.cfg.j2
+  notify: restart shinken

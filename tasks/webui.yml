@@ -1,0 +1,13 @@
+---
+
+- name: Install Shinken WebUI
+  command: shinken install webui
+
+- name: Install Shinken auth module
+  command: shinken install auth-cfg-password
+
+- name: Deploy webui configuration
+  template:
+    dest: /etc/shinken/modules/webui.cfg
+    src: ../templates/webui.cfg.j2
+  notify: restart shinken

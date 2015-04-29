@@ -1,0 +1,5 @@
+---
+- name: restart shinken
+  service:
+    name: shinken
+    state: restarted

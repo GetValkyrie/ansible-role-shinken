@@ -1,0 +1,12 @@
+---
+
+- name: Install pip dependencies
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - python-pip
+
+- name: Install Shinken from pip
+  pip:
+    name: shinken
+
