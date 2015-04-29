@@ -1,0 +1,22 @@
+---
+
+- name: Create command configs
+  template:
+    dest: "/etc/shinken/commands/{{ item.key }}.cfg"
+    src: ../templates/command.cfg.j2
+    owner: shinken
+    group: shinken
+  with_dict: shinken_commands
+  when: shinken_commands is defined
+  notify: reload shinken
+
+- name: Create host configs
+  template:
+    dest: "/etc/shinken/hosts/{{ item.key }}.cfg"
+    src: ../templates/host.cfg.j2
+    owner: shinken
+    group: shinken
+  with_dict: shinken_hosts
+  when: shinken_hosts is defined
+  notify: reload shinken
+

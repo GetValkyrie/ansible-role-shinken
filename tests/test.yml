@@ -1,5 +1,13 @@
 ---
 - hosts: localhost
   remote_user: root
+  vars:
+    shinken_hosts:
+      google:
+        hostname: google.com
+        check_command: check_ping_hostname
+    shinken_commands:
+      check_ping_hostname:
+        command_line: '$NAGIOSPLUGINSDIR$/check_ping -H $HOSTNAME$ -w 1000,100% -c 3000,100% -p 1'
   roles:
     - ansible-role-shinken

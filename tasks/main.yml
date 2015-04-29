@@ -46,3 +46,6 @@
     dest: /etc/shinken/brokers/broker-master.cfg
     src: ../templates/broker-master.cfg.j2
   notify: restart shinken
+
+- include: config_definitions.yml
+
