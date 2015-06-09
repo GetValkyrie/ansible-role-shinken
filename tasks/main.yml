@@ -38,6 +38,9 @@
   register: shinken_inventory
   changed_when: False
 
+- include: graphite.yml
+  when: shinken_graphite
+
 - include: webui.yml
   when: shinken_webui
 

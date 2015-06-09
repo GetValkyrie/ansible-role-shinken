@@ -9,7 +9,7 @@ define module {
   manage_acl          1
   play_sound          0
   login_text          Welcome to Shinken WebUI
-  modules             auth-cfg-password,sqlitedb
+  modules             {{ shinken_webui_modules|join(',') }}
   #http_backend        auto
   #remote_user_enable      1
   #remote_user_variable

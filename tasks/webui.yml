@@ -24,3 +24,7 @@
   with_items:
     - webui
     - sqlitedb
+
+- name: Add WebUI module to Broker config
+  set_fact:
+    shinken_broker_modules: "{{ shinken_broker_modules + ['webui']}}"

@@ -1,0 +1,24 @@
+---
+- name: Install Shinken Graphite modules.
+  command: "/usr/bin/shinken install {{ item }}"
+  when: "'{{ item }}' not in shinken_inventory.stdout_lines"
+  with_items:
+    - graphite
+    - ui-graphite
+
+- name: Deploy Graphite configurations
+  template:
+    dest: "/etc/shinken/modules/{{ item }}.cfg"
+    src: "../templates/{{ item }}.cfg.j2"
+  notify: restart shinken
+  with_items:
+    - graphite
+    - ui-graphite
+
+- name: Add Graphite UI module to WebUI config
+  set_fact:
+    shinken_webui_modules: "{{ shinken_webui_modules + ['ui-graphite']}}"
+
+- name: Add Graphite module to Broker config
+  set_fact:
+    shinken_broker_modules: "{{ shinken_broker_modules + ['graphite']}}"

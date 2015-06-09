@@ -6,3 +6,11 @@ shinken_packages:
   - python-cherrypy3
   - nagios-plugins
 shinken_webui: true
+shinken_graphite: false
+shinken_graphite_uri: "{{ inventory_hostname }}"
+shinken_commands: {}
+shinken_hosts: {}
+shinken_webui_modules:
+  - auth-cfg-password
+  - sqlitedb
+shinken_broker_modules: []

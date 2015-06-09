@@ -7,7 +7,6 @@
     owner: shinken
     group: shinken
   with_dict: shinken_commands
-  when: shinken_commands is defined
   notify: reload shinken
 
 - name: Create host configs
@@ -17,6 +16,5 @@
     owner: shinken
     group: shinken
   with_dict: shinken_hosts
-  when: shinken_hosts is defined
   notify: reload shinken
 
