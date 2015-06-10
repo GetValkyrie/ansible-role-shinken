@@ -7,7 +7,7 @@ shinken_packages:
   - nagios-plugins
 shinken_webui: true
 shinken_graphite: false
-shinken_graphite_uri: "{{ inventory_hostname }}"
+shinken_graphite_uri: "//{{ facter_fqdn }}"
 shinken_commands: {}
 shinken_hosts: {}
 shinken_webui_modules:
