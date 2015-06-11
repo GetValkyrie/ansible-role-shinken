@@ -1,7 +1,7 @@
 # See: http://shinken.readthedocs.org/en/latest/08_configobjects/host.html
 
 define host {
-  host_name      {{ item.value.hostname }}
+  host_name      {{ item.value.hostname | default(item.key) }}
   address        {{ item.value.address | default(item.value.hostname) }}
-  check_command  {{ check_command | default('check_ping') }}
+  check_command  {{ item.value.check_command | default('check_ping') }}
 }
