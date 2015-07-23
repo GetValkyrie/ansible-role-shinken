@@ -1,0 +1,8 @@
+---
+shinken_packages:
+  - python-pycurl
+  - python-setuptools
+  - python-cherrypy3
+  - nagios-plugins
+
+shinken_nagios_plugins_path: '/usr/lib/nagios/plugins'

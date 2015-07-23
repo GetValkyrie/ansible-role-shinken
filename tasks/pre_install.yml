@@ -1,0 +1,15 @@
+---
+- name: Install Shinken dependencies
+  action: "{{ ansible_pkg_mgr }} name={{ shinken_packages | join(',') }} state=present"
+
+- name: Add 'shinken' user
+  user:
+    name: shinken
+
+- name: Ensure setuid on monitoring plugins
+  file:
+    state: directory
+    path: "{{ shinken_nagios_plugins_path }}"
+    mode: u+s
+    recurse: yes
+

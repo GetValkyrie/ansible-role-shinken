@@ -1,0 +1,40 @@
+---
+- name: Ensure pidfile directory is shinken-writable
+  file:
+    state: directory
+    path: "{{ shinken_workdir }}"
+    mode: 0755
+    owner: shinken
+    group: shinken
+
+- name: Enable and start Shinken services
+  service:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  with_items: "{{ shinken_enabled_services }}"
+
+- name: Initialize Shinken command-line
+  command: /usr/bin/shinken --init
+  args:
+    creates: /root/.shinken.ini
+
+- name: Check installed Shinken packages
+  command: /usr/bin/shinken inventory
+  register: shinken_inventory
+  changed_when: False
+
+- include: graphite.yml
+  when: shinken_graphite
+
+- include: webui.yml
+  when: shinken_webui
+
+- name: Deploy Broker configuration
+  template:
+    dest: /etc/shinken/brokers/broker-master.cfg
+    src: ../templates/broker-master.cfg.j2
+  notify: restart shinken
+
+- include: config_definitions.yml
+

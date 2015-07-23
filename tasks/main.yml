@@ -1,22 +1,8 @@
 ---
 
-- name: Install Shinken dependencies
-  apt:
-    name: "{{ item }}"
-    update_cache: yes
-    cache_valid_time: 3600
-  with_items: shinken_packages
+- include_vars: "{{ ansible_os_family }}.yml"
 
-- name: Add 'shinken' user
-  user:
-    name: shinken
-
-- name: Ensure setuid on monitoring plugins
-  file:
-    state: directory
-    path: /usr/lib/nagios/plugins
-    mode: u+s
-    recurse: yes
+- include: pre_install.yml
 
 - include: pip_install.yml
   when: shinken_install == 'pip'
@@ -24,33 +10,4 @@
 - include: git_install.yml
   when: shinken_install == 'git'
 
-- name: Enable and start Shinken services
-  service:
-    name: shinken
-    enabled: yes
-    state: started
-
-- name: Initialize Shinken command-line
-  command: /usr/bin/shinken --init
-  args:
-    creates: /root/.shinken.ini
-
-- name: Check installed Shinken packages
-  command: /usr/bin/shinken inventory
-  register: shinken_inventory
-  changed_when: False
-
-- include: graphite.yml
-  when: shinken_graphite
-
-- include: webui.yml
-  when: shinken_webui
-
-- name: Deploy Broker configuration
-  template:
-    dest: /etc/shinken/brokers/broker-master.cfg
-    src: ../templates/broker-master.cfg.j2
-  notify: restart shinken
-
-- include: config_definitions.yml
-
+- include: post_install.yml
