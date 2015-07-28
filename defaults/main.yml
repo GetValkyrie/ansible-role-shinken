@@ -16,5 +16,6 @@ shinken_enabled_services:
   - shinken-scheduler
   - shinken-receiver
   - shinken-reactionner
+shinken_disabled_services: []
 shinken_workdir: '/var/run/shinken'
 shinken_version: '2.4'

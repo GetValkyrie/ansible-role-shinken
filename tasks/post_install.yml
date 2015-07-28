@@ -7,12 +7,21 @@
     owner: shinken
     group: shinken
 
-- name: Enable and start Shinken services
+- name: Enable and start some Shinken services
   service:
     name: "{{ item }}"
     enabled: yes
     state: started
   with_items: "{{ shinken_enabled_services }}"
+  when: shinken_enabled_services | length > 0
+
+- name: Disable and stop some Shinken services
+  service:
+    name: "{{ item }}"
+    enabled: no
+    state: stopped
+  with_items: "{{ shinken_disabled_services }}"
+  when: shinken_disabled_services | length > 0
 
 - name: Initialize Shinken command-line
   command: /usr/bin/shinken --init
